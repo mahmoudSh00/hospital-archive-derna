@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستشفى الوحدة العلاجي درنة - نظام الأرشيف</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="text-center mb-4">
+                <i class="fas fa-hospital-alt fa-3x text-primary mb-3"></i>
+                <h2 class="text-primary">مستشفى الوحدة العلاجي درنة</h2>
+                <p class="text-muted">نظام الأرشيف الطبي الشامل</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">اسم المستخدم</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="username" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">كلمة المرور</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="language" class="form-label">اللغة</label>
+                    <select class="form-select" id="language">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول
+                </button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-outline-warning btn-sm" onclick="resetUserData()" title="إعادة تعيين بيانات المستخدم">
+                    <i class="fas fa-refresh me-1"></i>إعادة تعيين البيانات
+                </button>
+            </div>
+            
+            <!-- معلومات تسجيل الدخول الافتراضية -->
+            <div class="alert alert-info mt-3" role="alert">
+                <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i>بيانات تسجيل الدخول الافتراضية:</h6>
+                <hr>
+                <p class="mb-1"><strong>اسم المستخدم:</strong> amod</p>
+                <p class="mb-0"><strong>كلمة المرور:</strong> 1997200455</p>
+            </div>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    تصميم وتطوير:  by mahmoud sh <br>
+                    هاتف: 0920719250
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="mainApp" class="d-none">
+        <!-- شريط التنقل العلوي -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-hospital-alt me-2"></i>
+                    مستشفى الوحدة العلاجي درنة
+                </a>
+                
+                <div class="navbar-nav ms-auto">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            <span id="currentUser">مدير</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="changeLanguage()">
+                                <i class="fas fa-language me-2"></i>تغيير اللغة
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <!-- الشريط الجانبي -->
+                <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                                    <i class="fas fa-tachometer-alt me-2"></i>لوحة التحكم
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="showSection('patients')">
+                                    <i class="fas fa-user-injured me-2"></i>ملفات المرضى
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="showSection('admissions')">
+                                    <i class="fas fa-hospital me-2"></i>الدخول والخروج
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="showSection('deaths')">
+                                    <i class="fas fa-cross me-2"></i>حالات الوفاة
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="showSection('reports')">
+                                    <i class="fas fa-chart-bar me-2"></i>التقارير
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="showSection('users')">
+                                    <i class="fas fa-users me-2"></i>إدارة المستخدمين
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!-- المحتوى الرئيسي -->
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <!-- لوحة التحكم -->
+                    <div id="dashboard" class="content-section">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">لوحة التحكم</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="btn-group me-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-download me-1"></i>تصدير
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- بطاقات الإحصائيات -->
+                        <div class="row mb-4">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    إجمالي المرضى
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalPatients">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-user-injured fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    حالات الدخول اليوم
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="todayAdmissions">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-hospital fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                    حالات الخروج اليوم
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="todayDischarges">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-sign-out-alt fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    حالات الوفاة هذا الشهر
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="monthlyDeaths">0</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-cross fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- الأنشطة الأخيرة -->
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">الأنشطة الأخيرة</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="recentActivities">
+                                            <!-- سيتم ملء هذا القسم بـ JavaScript -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">التنبيهات</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="notifications">
+                                            <!-- سيتم ملء هذا القسم بـ JavaScript -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- قسم ملفات المرضى -->
+                    <div id="patients" class="content-section d-none">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">ملفات المرضى</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+                                    <i class="fas fa-plus me-1"></i>إضافة مريض جديد
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- شريط البحث -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="patientSearch" placeholder="البحث عن مريض...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="patientFilter">
+                                    <option value="">جميع المرضى</option>
+                                    <option value="active">المرضى النشطون</option>
+                                    <option value="discharged">المرضى المخرجون</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- جدول المرضى -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>رقم الملف</th>
+                                        <th>الاسم الكامل</th>
+                                        <th>تاريخ الميلاد</th>
+                                        <th>الجنس</th>
+                                        <th>رقم الهاتف</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientsTable">
+                                    <!-- سيتم ملء هذا الجدول بـ JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- قسم الدخول والخروج -->
+                    <div id="admissions" class="content-section d-none">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">حالات الدخول والخروج</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addAdmissionModal">
+                                    <i class="fas fa-plus me-1"></i>تسجيل دخول
+                                </button>
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addDischargeModal">
+                                    <i class="fas fa-sign-out-alt me-1"></i>تسجيل خروج
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- جدول الدخول والخروج -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>رقم الملف</th>
+                                        <th>اسم المريض</th>
+                                        <th>تاريخ الدخول</th>
+                                        <th>تاريخ الخروج</th>
+                                        <th>سبب الدخول</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admissionsTable">
+                                    <!-- سيتم ملء هذا الجدول بـ JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- قسم حالات الوفاة -->
+                    <div id="deaths" class="content-section d-none">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">حالات الوفاة</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addDeathModal">
+                                    <i class="fas fa-plus me-1"></i>تسجيل وفاة
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- جدول الوفيات -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>رقم الملف</th>
+                                        <th>اسم المتوفى</th>
+                                        <th>تاريخ الوفاة</th>
+                                        <th>سبب الوفاة</th>
+                                        <th>العمر</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deathsTable">
+                                    <!-- سيتم ملء هذا الجدول بـ JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- قسم التقارير -->
+                    <div id="reports" class="content-section d-none">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">التقارير</h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-file-medical fa-3x text-primary mb-3"></i>
+                                        <h5 class="card-title">تقرير المرضى</h5>
+                                        <p class="card-text">تقرير شامل عن جميع المرضى</p>
+                                        <button class="btn btn-primary" onclick="generateReport('patients')">إنشاء التقرير</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-hospital fa-3x text-success mb-3"></i>
+                                        <h5 class="card-title">تقرير الدخول والخروج</h5>
+                                        <p class="card-text">تقرير حالات الدخول والخروج</p>
+                                        <button class="btn btn-success" onclick="generateReport('admissions')">إنشاء التقرير</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-cross fa-3x text-danger mb-3"></i>
+                                        <h5 class="card-title">تقرير الوفيات</h5>
+                                        <p class="card-text">تقرير حالات الوفاة</p>
+                                        <button class="btn btn-danger" onclick="generateReport('deaths')">إنشاء التقرير</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- قسم إدارة المستخدمين -->
+                    <div id="users" class="content-section d-none">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">إدارة المستخدمين</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                                    <i class="fas fa-plus me-1"></i>إضافة مستخدم جديد
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- جدول المستخدمين -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>اسم المستخدم</th>
+                                        <th>الاسم الكامل</th>
+                                        <th>الدور</th>
+                                        <th>تاريخ الإنشاء</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <!-- سيتم ملء هذا الجدول بـ JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- النوافذ المنبثقة (Modals) -->
+    <!-- نافذة إضافة مريض جديد -->
+    <div class="modal fade" id="addPatientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إضافة مريض جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPatientForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="patientName" class="form-label">الاسم الكامل</label>
+                                <input type="text" class="form-control" id="patientName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="patientBirthDate" class="form-label">تاريخ الميلاد</label>
+                                <input type="date" class="form-control" id="patientBirthDate" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="patientGender" class="form-label">الجنس</label>
+                                <select class="form-select" id="patientGender" required>
+                                    <option value="">اختر الجنس</option>
+                                    <option value="male">ذكر</option>
+                                    <option value="female">أنثى</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="patientPhone" class="form-label">رقم الهاتف</label>
+                                <input type="tel" class="form-control" id="patientPhone">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="patientAddress" class="form-label">العنوان</label>
+                                <textarea class="form-control" id="patientAddress" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="patientBloodType" class="form-label">فصيلة الدم</label>
+                                <select class="form-select" id="patientBloodType">
+                                    <option value="">اختر فصيلة الدم</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="patientEmergencyContact" class="form-label">جهة الاتصال في الطوارئ</label>
+                                <input type="tel" class="form-control" id="patientEmergencyContact">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="patientMedicalHistory" class="form-label">التاريخ المرضي</label>
+                            <textarea class="form-control" id="patientMedicalHistory" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="patientCurrentMedications" class="form-label">الأدوية الحالية</label>
+                            <textarea class="form-control" id="patientCurrentMedications" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" onclick="addPatient()">حفظ المريض</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة دخول -->
+    <div class="modal fade" id="addAdmissionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تسجيل دخول مريض</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAdmissionForm">
+                        <div class="mb-3">
+                            <label for="admissionPatientId" class="form-label">رقم ملف المريض</label>
+                            <input type="text" class="form-control" id="admissionPatientId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admissionDate" class="form-label">تاريخ الدخول</label>
+                            <input type="datetime-local" class="form-control" id="admissionDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admissionReason" class="form-label">سبب الدخول</label>
+                            <textarea class="form-control" id="admissionReason" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admissionDepartment" class="form-label">القسم</label>
+                            <select class="form-select" id="admissionDepartment" required>
+                                <option value="">اختر القسم</option>
+                                <option value="emergency">الطوارئ</option>
+                                <option value="internal">الباطنة</option>
+                                <option value="surgery">الجراحة</option>
+                                <option value="pediatrics">الأطفال</option>
+                                <option value="obstetrics">النساء والولادة</option>
+                                <option value="icu">العناية المركزة</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="admissionDoctor" class="form-label">الطبيب المعالج</label>
+                            <input type="text" class="form-control" id="admissionDoctor" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-success" onclick="addAdmission()">تسجيل الدخول</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة خروج -->
+    <div class="modal fade" id="addDischargeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تسجيل خروج مريض</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDischargeForm">
+                        <div class="mb-3">
+                            <label for="dischargePatientId" class="form-label">رقم ملف المريض</label>
+                            <input type="text" class="form-control" id="dischargePatientId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dischargeDate" class="form-label">تاريخ الخروج</label>
+                            <input type="datetime-local" class="form-control" id="dischargeDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dischargeCondition" class="form-label">حالة الخروج</label>
+                            <select class="form-select" id="dischargeCondition" required>
+                                <option value="">اختر حالة الخروج</option>
+                                <option value="recovered">شفاء تام</option>
+                                <option value="improved">تحسن</option>
+                                <option value="stable">حالة مستقرة</option>
+                                <option value="transferred">تحويل لمستشفى آخر</option>
+                                <option value="against_advice">خروج ضد المشورة الطبية</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dischargeInstructions" class="form-label">تعليمات الخروج</label>
+                            <textarea class="form-control" id="dischargeInstructions" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dischargeMedications" class="form-label">الأدوية الموصوفة</label>
+                            <textarea class="form-control" id="dischargeMedications" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-warning" onclick="addDischarge()">تسجيل الخروج</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة وفاة -->
+    <div class="modal fade" id="addDeathModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تسجيل حالة وفاة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDeathForm">
+                        <div class="mb-3">
+                            <label for="deathPatientId" class="form-label">رقم ملف المريض</label>
+                            <input type="text" class="form-control" id="deathPatientId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deathDate" class="form-label">تاريخ ووقت الوفاة</label>
+                            <input type="datetime-local" class="form-control" id="deathDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deathCause" class="form-label">سبب الوفاة</label>
+                            <textarea class="form-control" id="deathCause" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deathDoctor" class="form-label">الطبيب المسؤول</label>
+                            <input type="text" class="form-control" id="deathDoctor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deathNotes" class="form-label">ملاحظات إضافية</label>
+                            <textarea class="form-control" id="deathNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-danger" onclick="addDeath()">تسجيل الوفاة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة مستخدم -->
+    <div class="modal fade" id="addUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">إضافة مستخدم جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="newUsername" class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" id="newUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newUserFullName" class="form-label">الاسم الكامل</label>
+                            <input type="text" class="form-control" id="newUserFullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newUserPassword" class="form-label">كلمة المرور</label>
+                            <input type="password" class="form-control" id="newUserPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newUserRole" class="form-label">الدور</label>
+                            <select class="form-select" id="newUserRole" required>
+                                <option value="">اختر الدور</option>
+                                <option value="admin">مدير</option>
+                                <option value="doctor">طبيب</option>
+                                <option value="nurse">ممرض</option>
+                                <option value="clerk">موظف أرشيف</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newUserEmail" class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-control" id="newUserEmail">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" onclick="addUser()">إضافة المستخدم</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تنبيهات Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                <strong class="me-auto">نجح</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="successMessage">
+                تم الحفظ بنجاح
+            </div>
+        </div>
+        
+        <div id="errorToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="fas fa-exclamation-circle text-danger me-2"></i>
+                <strong class="me-auto">خطأ</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="errorMessage">
+                حدث خطأ ما
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة البحث المتقدم -->
+    <div class="modal fade" id="advancedSearchModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">البحث المتقدم</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="advancedSearchForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="searchName" class="form-label">الاسم</label>
+                                <input type="text" class="form-control" id="searchName">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="searchId" class="form-label">رقم الملف</label>
+                                <input type="text" class="form-control" id="searchId">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="searchGender" class="form-label">الجنس</label>
+                                <select class="form-select" id="searchGender">
+                                    <option value="">جميع الأجناس</option>
+                                    <option value="male">ذكر</option>
+                                    <option value="female">أنثى</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="searchBloodType" class="form-label">فصيلة الدم</label>
+                                <select class="form-select" id="searchBloodType">
+                                    <option value="">جميع الفصائل</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="searchAgeFrom" class="form-label">العمر من</label>
+                                <input type="number" class="form-control" id="searchAgeFrom" min="0" max="150">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="searchAgeTo" class="form-label">العمر إلى</label>
+                                <input type="number" class="form-control" id="searchAgeTo" min="0" max="150">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="searchDateFrom" class="form-label">تاريخ التسجيل من</label>
+                                <input type="date" class="form-control" id="searchDateFrom">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="searchDateTo" class="form-label">تاريخ التسجيل إلى</label>
+                                <input type="date" class="form-control" id="searchDateTo">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" onclick="performAdvancedSearch()">بحث</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="clearAdvancedSearch()">مسح</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإحصائيات المتقدمة -->
+    <div class="modal fade" id="statsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">الإحصائيات المتقدمة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>إحصائيات الأقسام</h6>
+                            <div id="departmentStats"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>إحصائيات الفئات العمرية</h6>
+                            <div id="ageGroupStats"></div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h6>الإحصائيات الشهرية</h6>
+                            <div id="monthlyStats"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="exportStats()">تصدير الإحصائيات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة النسخ الاحتياطي -->
+    <div class="modal fade" id="backupModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">النسخ الاحتياطي والاستعادة</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <h6>إنشاء نسخة احتياطية</h6>
+                        <p class="text-muted">سيتم تحميل ملف يحتوي على جميع البيانات</p>
+                        <button type="button" class="btn btn-success" onclick="BackupManager.createBackup()">
+                            <i class="fas fa-download me-2"></i>إنشاء نسخة احتياطية
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <h6>استعادة نسخة احتياطية</h6>
+                        <p class="text-muted">اختر ملف النسخة الاحتياطية لاستعادة البيانات</p>
+                        <input type="file" class="form-control" id="backupFile" accept=".json">
+                        <button type="button" class="btn btn-warning mt-2" onclick="restoreFromFile()">
+                            <i class="fas fa-upload me-2"></i>استعادة البيانات
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/features.js"></script>
+    
+    <script>
+        // وظائف إضافية للواجهة
+        function performAdvancedSearch() {
+            const criteria = {
+                name: document.getElementById('searchName').value,
+                id: document.getElementById('searchId').value,
+                gender: document.getElementById('searchGender').value,
+                bloodType: document.getElementById('searchBloodType').value,
+                ageFrom: document.getElementById('searchAgeFrom').value ? parseInt(document.getElementById('searchAgeFrom').value) : null,
+                ageTo: document.getElementById('searchAgeTo').value ? parseInt(document.getElementById('searchAgeTo').value) : null,
+                dateFrom: document.getElementById('searchDateFrom').value,
+                dateTo: document.getElementById('searchDateTo').value
+            };
+            
+            const results = AdvancedSearch.searchPatients(criteria);
+            displayFilteredPatients(results);
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('advancedSearchModal'));
+            modal.hide();
+            
+            showSuccessMessage(`تم العثور على ${results.length} نتيجة`);
+        }
+        
+        function clearAdvancedSearch() {
+            document.getElementById('advancedSearchForm').reset();
+        }
+        
+        function showAdvancedStats() {
+            const departmentStats = AdvancedStats.getDepartmentStats();
+            const ageGroupStats = AdvancedStats.getAgeGroupStats();
+            const monthlyStats = AdvancedStats.getMonthlyStats();
+            
+            // عرض إحصائيات الأقسام
+            const departmentStatsHtml = Object.keys(departmentStats).map(dept => `
+                <div class="mb-2">
+                    <strong>${dept}:</strong> ${departmentStats[dept].total} مريض
+                    (نشط: ${departmentStats[dept].active}, مخرج: ${departmentStats[dept].discharged})
+                </div>
+            `).join('');
+            document.getElementById('departmentStats').innerHTML = departmentStatsHtml;
+            
+            // عرض إحصائيات الفئات العمرية
+            const ageGroupStatsHtml = Object.keys(ageGroupStats).map(group => `
+                <div class="mb-2">
+                    <strong>${group} سنة:</strong> ${ageGroupStats[group]} مريض
+                </div>
+            `).join('');
+            document.getElementById('ageGroupStats').innerHTML = ageGroupStatsHtml;
+            
+            // عرض الإحصائيات الشهرية
+            const monthlyStatsHtml = `
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>الشهر</th>
+                            <th>مرضى جدد</th>
+                            <th>حالات دخول</th>
+                            <th>وفيات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${monthlyStats.map(month => `
+                            <tr>
+                                <td>${month.month}</td>
+                                <td>${month.patients}</td>
+                                <td>${month.admissions}</td>
+                                <td>${month.deaths}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('monthlyStats').innerHTML = monthlyStatsHtml;
+            
+            const modal = new bootstrap.Modal(document.getElementById('statsModal'));
+            modal.show();
+        }
+        
+        function exportStats() {
+            const stats = {
+                departmentStats: AdvancedStats.getDepartmentStats(),
+                ageGroupStats: AdvancedStats.getAgeGroupStats(),
+                monthlyStats: AdvancedStats.getMonthlyStats(),
+                generatedAt: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(stats, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `hospital_stats_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showSuccessMessage('تم تصدير الإحصائيات بنجاح');
+        }
+        
+        function restoreFromFile() {
+            const fileInput = document.getElementById('backupFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showErrorMessage('يرجى اختيار ملف النسخة الاحتياطية');
+                return;
+            }
+            
+            BackupManager.restoreBackup(file);
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('backupModal'));
+            modal.hide();
+        }
+        
+        function printPatientReport(patientId) {
+            const reportHTML = ReportGenerator.generateDetailedPatientReport(patientId);
+            if (reportHTML) {
+                ReportGenerator.printReport(reportHTML);
+            } else {
+                showErrorMessage('لم يتم العثور على المريض');
+            }
+        }
+        
+        // تحديث قائمة التنقل لإضافة الميزات الجديدة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة أزرار الميزات الإضافية إلى شريط الأدوات
+            const dashboardToolbar = document.querySelector('#dashboard .btn-toolbar');
+            if (dashboardToolbar) {
+                dashboardToolbar.innerHTML += `
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="showAdvancedStats()">
+                            <i class="fas fa-chart-line me-1"></i>إحصائيات متقدمة
+                        </button>
+                    </div>
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#backupModal">
+                            <i class="fas fa-database me-1"></i>النسخ الاحتياطي
+                        </button>
+                    </div>
+                `;
+            }
+            
+            // إضافة زر البحث المتقدم إلى قسم المرضى
+            const patientsToolbar = document.querySelector('#patients .btn-toolbar');
+            if (patientsToolbar) {
+                patientsToolbar.innerHTML += `
+                    <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
+                        <i class="fas fa-search-plus me-1"></i>بحث متقدم
+                    </button>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
